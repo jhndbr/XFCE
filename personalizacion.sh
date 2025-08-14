@@ -25,7 +25,7 @@ cd Orchis-theme
 cd "$WORKDIR"
 rm -rf Orchis-theme
 
-echo "\n[+] Clonando y aplicando temas de iconos..."
+printf "\n[+] Clonando y aplicando temas de iconos...\n"
 git clone --depth=1 https://github.com/vinceliuice/WhiteSur-icon-theme.git
 cd WhiteSur-icon-theme
 ./install.sh -d "$ICONS_DIR"
