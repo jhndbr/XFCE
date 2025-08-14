@@ -30,7 +30,25 @@ cd "$WORKDIR"
 rm -rf Layan-gtk-theme
 
 git clone --depth=1 https://github.com/vinceliuice/Orchis-theme.git
+cd Layan-gtk-theme
+if [ ! -x install.sh ]; then
+    echo "Error: install.sh no existe o no es ejecutable en Layan-gtk-theme." >&2
+    cd "$WORKDIR"
+    rm -rf Layan-gtk-theme
+    exit 1
+fi
+./install.sh -d "$THEMES_DIR"
+cd "$WORKDIR"
+rm -rf Layan-gtk-theme
+
+git clone --depth=1 https://github.com/vinceliuice/Orchis-theme.git
 cd Orchis-theme
+if [ ! -x install.sh ]; then
+    echo "Error: install.sh no existe o no es ejecutable en Orchis-theme." >&2
+    cd "$WORKDIR"
+    rm -rf Orchis-theme
+    exit 1
+fi
 if [ ! -f install.sh ] || [ ! -x install.sh ]; then
     echo "Error: install.sh not found or not executable in $(pwd)"
     exit 1
