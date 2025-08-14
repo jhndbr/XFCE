@@ -140,5 +140,28 @@ else
 fi
 cd "$WORKDIR"
 rm -rf Fluent-icon-theme
+# Function to clone, install, and clean up a theme or icon repo
+clone_install_cleanup() {
+    local repo_url="$1"
+    local install_dir="$2"
+    local workdir="$3"
+    local repo_name
+    repo_name=$(basename "$repo_url" .git)
+    git clone --depth=1 "$repo_url"
+    cd "$repo_name"
+    ./install.sh -d "$install_dir"
+    cd "$workdir"
+    rm -rf "$repo_name"
+}
 
+echo "\n[+] Creando carpetas de temas e iconos si no existen..."
+mkdir -p "$THEMES_DIR" "$ICONS_DIR"
+
+echo "\n[+] Clonando y aplicando temas GTK..."
+clone_install_cleanup "https://github.com/vinceliuice/Layan-gtk-theme.git" "$THEMES_DIR" "$WORKDIR"
+clone_install_cleanup "https://github.com/vinceliuice/Orchis-theme.git" "$THEMES_DIR" "$WORKDIR"
+
+echo "\n[+] Clonando y aplicando temas de iconos..."
+clone_install_cleanup "https://github.com/vinceliuice/WhiteSur-icon-theme.git" "$ICONS_DIR" "$WORKDIR"
+clone_install_cleanup "https://github.com/vinceliuice/Fluent-icon-theme.git" "$ICONS_DIR" "$WORKDIR"
 printf "\n[✔] Personalización completada. Puedes seleccionar los temas e iconos desde la configuración de XFCE.\n"
