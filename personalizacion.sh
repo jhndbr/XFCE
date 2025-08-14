@@ -65,7 +65,31 @@ cd "$WORKDIR"
 rm -rf WhiteSur-icon-theme
 
 git clone --depth=1 https://github.com/vinceliuice/Fluent-icon-theme.git
+cd WhiteSur-icon-theme
+if [ ! -f install.sh ]; then
+    echo "Error: install.sh not found in WhiteSur-icon-theme." >&2
+    cd "$WORKDIR"
+    rm -rf WhiteSur-icon-theme
+    exit 1
+fi
+if [ ! -x install.sh ]; then
+    chmod +x install.sh
+fi
+./install.sh -d "$ICONS_DIR"
+cd "$WORKDIR"
+rm -rf WhiteSur-icon-theme
+
+git clone --depth=1 https://github.com/vinceliuice/Fluent-icon-theme.git
 cd Fluent-icon-theme
+if [ ! -f install.sh ]; then
+    echo "Error: install.sh not found in Fluent-icon-theme." >&2
+    cd "$WORKDIR"
+    rm -rf Fluent-icon-theme
+    exit 1
+fi
+if [ ! -x install.sh ]; then
+    chmod +x install.sh
+fi
 ./install.sh -d "$ICONS_DIR"
 cd "$WORKDIR"
 rm -rf Fluent-icon-theme
