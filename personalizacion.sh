@@ -38,4 +38,4 @@ cd Fluent-icon-theme
 cd "$WORKDIR"
 rm -rf Fluent-icon-theme
 
-echo "\n[✔] Personalización completada. Puedes seleccionar los temas e iconos desde la configuración de XFCE."
+printf "\n[✔] Personalización completada. Puedes seleccionar los temas e iconos desde la configuración de XFCE.\n"
