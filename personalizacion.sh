@@ -1,4 +1,167 @@
-git clone https://github.com/vinceliuice/Layan-gtk-theme.git
-git clone https://github.com/vinceliuice/Orchis-theme.git
-git clone https://github.com/vinceliuice/WhiteSur-icon-theme.git
-git clone https://github.com/vinceliuice/Fluent-icon-theme.git
+#!/bin/bash
+
+set -e
+
+THEMES_DIR="$HOME/.themes"
+ICONS_DIR="$HOME/.icons"
+WORKDIR="$(pwd)"
+
+echo "\n[+] Creando carpetas de temas e iconos si no existen..."
+mkdir -p "$THEMES_DIR" "$ICONS_DIR"
+
+printf "\n[+] Creando carpetas de temas e iconos si no existen...\n"
+mkdir -p "$THEMES_DIR" "$ICONS_DIR"
+
+printf "\n[+] Clonando y aplicando temas GTK...\n"
+git clone --depth=1 https://github.com/vinceliuice/Layan-gtk-theme.git
+cd Layan-gtk-theme
+./install.sh -d "$THEMES_DIR"
+cd "$WORKDIR"
+rm -rf Layan-gtk-theme
+
+git clone --depth=1 https://github.com/vinceliuice/Orchis-theme.git
+cd Layan-gtk-theme
+if [ ! -f install.sh ] || [ ! -x install.sh ]; then
+    echo "Error: install.sh not found or not executable in $(pwd)"
+    exit 1
+fi
+./install.sh -d "$THEMES_DIR"
+cd "$WORKDIR"
+rm -rf Layan-gtk-theme
+
+git clone --depth=1 https://github.com/vinceliuice/Orchis-theme.git
+cd Layan-gtk-theme
+if [ ! -x install.sh ]; then
+    echo "Error: install.sh no existe o no es ejecutable en Layan-gtk-theme." >&2
+    cd "$WORKDIR"
+    rm -rf Layan-gtk-theme
+    exit 1
+fi
+./install.sh -d "$THEMES_DIR"
+cd "$WORKDIR"
+rm -rf Layan-gtk-theme
+
+git clone --depth=1 https://github.com/vinceliuice/Orchis-theme.git
+cd Orchis-theme
+if [ ! -x install.sh ]; then
+    echo "Error: install.sh no existe o no es ejecutable en Orchis-theme." >&2
+    cd "$WORKDIR"
+    rm -rf Orchis-theme
+    exit 1
+fi
+if [ ! -f install.sh ] || [ ! -x install.sh ]; then
+    echo "Error: install.sh not found or not executable in $(pwd)"
+    exit 1
+fi
+./install.sh -d "$THEMES_DIR"
+cd "$WORKDIR"
+rm -rf Orchis-theme
+
+printf "\n[+] Clonando y aplicando temas de iconos...\n"
+git clone --depth=1 https://github.com/vinceliuice/WhiteSur-icon-theme.git
+cd WhiteSur-icon-theme
+./install.sh -d "$ICONS_DIR"
+cd "$WORKDIR"
+rm -rf WhiteSur-icon-theme
+
+git clone --depth=1 https://github.com/vinceliuice/Fluent-icon-theme.git
+cd WhiteSur-icon-theme
+if [ ! -f install.sh ]; then
+    echo "Error: install.sh not found in WhiteSur-icon-theme." >&2
+    cd "$WORKDIR"
+    rm -rf WhiteSur-icon-theme
+    exit 1
+fi
+if [ ! -x install.sh ]; then
+    chmod +x install.sh
+fi
+./install.sh -d "$ICONS_DIR"
+cd "$WORKDIR"
+rm -rf WhiteSur-icon-theme
+
+git clone --depth=1 https://github.com/vinceliuice/Fluent-icon-theme.git
+cd Fluent-icon-theme
+if [ ! -f install.sh ]; then
+    echo "Error: install.sh not found in Fluent-icon-theme." >&2
+    cd "$WORKDIR"
+    rm -rf Fluent-icon-theme
+    exit 1
+fi
+if [ ! -x install.sh ]; then
+    chmod +x install.sh
+fi
+if [ -f install.sh ] && [ -x install.sh ]; then
+    ./install.sh -d "$THEMES_DIR"
+else
+    echo "Error: install.sh not found or not executable in Layan-gtk-theme."
+    cd "$WORKDIR"
+    rm -rf Layan-gtk-theme
+    exit 1
+fi
+cd "$WORKDIR"
+rm -rf Layan-gtk-theme
+
+git clone --depth=1 https://github.com/vinceliuice/Orchis-theme.git
+cd Orchis-theme
+if [ -f install.sh ] && [ -x install.sh ]; then
+    ./install.sh -d "$THEMES_DIR"
+else
+    echo "Error: install.sh not found or not executable in Orchis-theme."
+    cd "$WORKDIR"
+    rm -rf Orchis-theme
+    exit 1
+fi
+cd "$WORKDIR"
+rm -rf Orchis-theme
+
+echo "\n[+] Clonando y aplicando temas de iconos..."
+git clone --depth=1 https://github.com/vinceliuice/WhiteSur-icon-theme.git
+cd WhiteSur-icon-theme
+if [ -f install.sh ] && [ -x install.sh ]; then
+    ./install.sh -d "$ICONS_DIR"
+else
+    echo "Error: install.sh not found or not executable in WhiteSur-icon-theme."
+    cd "$WORKDIR"
+    rm -rf WhiteSur-icon-theme
+    exit 1
+fi
+cd "$WORKDIR"
+rm -rf WhiteSur-icon-theme
+
+git clone --depth=1 https://github.com/vinceliuice/Fluent-icon-theme.git
+cd Fluent-icon-theme
+if [ -f install.sh ] && [ -x install.sh ]; then
+    ./install.sh -d "$ICONS_DIR"
+else
+    echo "Error: install.sh not found or not executable in Fluent-icon-theme."
+    cd "$WORKDIR"
+    rm -rf Fluent-icon-theme
+    exit 1
+fi
+cd "$WORKDIR"
+rm -rf Fluent-icon-theme
+# Function to clone, install, and clean up a theme or icon repo
+clone_install_cleanup() {
+    local repo_url="$1"
+    local install_dir="$2"
+    local workdir="$3"
+    local repo_name
+    repo_name=$(basename "$repo_url" .git)
+    git clone --depth=1 "$repo_url"
+    cd "$repo_name"
+    ./install.sh -d "$install_dir"
+    cd "$workdir"
+    rm -rf "$repo_name"
+}
+
+echo "\n[+] Creando carpetas de temas e iconos si no existen..."
+mkdir -p "$THEMES_DIR" "$ICONS_DIR"
+
+echo "\n[+] Clonando y aplicando temas GTK..."
+clone_install_cleanup "https://github.com/vinceliuice/Layan-gtk-theme.git" "$THEMES_DIR" "$WORKDIR"
+clone_install_cleanup "https://github.com/vinceliuice/Orchis-theme.git" "$THEMES_DIR" "$WORKDIR"
+
+echo "\n[+] Clonando y aplicando temas de iconos..."
+clone_install_cleanup "https://github.com/vinceliuice/WhiteSur-icon-theme.git" "$ICONS_DIR" "$WORKDIR"
+clone_install_cleanup "https://github.com/vinceliuice/Fluent-icon-theme.git" "$ICONS_DIR" "$WORKDIR"
+printf "\n[✔] Personalización completada. Puedes seleccionar los temas e iconos desde la configuración de XFCE.\n"
