@@ -9,7 +9,10 @@ WORKDIR="$(pwd)"
 echo "\n[+] Creando carpetas de temas e iconos si no existen..."
 mkdir -p "$THEMES_DIR" "$ICONS_DIR"
 
-echo "\n[+] Clonando y aplicando temas GTK..."
+printf "\n[+] Creando carpetas de temas e iconos si no existen...\n"
+mkdir -p "$THEMES_DIR" "$ICONS_DIR"
+
+printf "\n[+] Clonando y aplicando temas GTK...\n"
 git clone --depth=1 https://github.com/vinceliuice/Layan-gtk-theme.git
 cd Layan-gtk-theme
 ./install.sh -d "$THEMES_DIR"
